@@ -50,19 +50,24 @@ class TetrisGrid
             {
                 // draws the empty cells of the grid
                 spriteBatch.Draw(emptyCell, new Rectangle((int)position.X + i * 40, (int)position.Y + j * 40, 40, 40), Color.White);
-                // checks if the empty cell has a color, if not, draw a colored block
+                // checks if the empty cell doesn't have a color, if it does have a color, draw a colored block
                 if (grid[i, j] != Color.White)
                 {
                     spriteBatch.Draw(emptyCell, new Rectangle((int)position.X + i * 40, (int)position.Y + j * 40, 40, 40), grid[i, j]);
                 }
             }
         }
-        
-
-        
-
     }
 
+    //method to set a cell in the grid to a color
+    public void SetCell(int x, int y, Color color)
+    {
+        if(x>=0 && x < Width && y>=0 && y < Height)
+        {
+            grid[x, y] = color;
+        }
+
+    }
     /// <summary>
     /// Clears the grid.
     /// </summary>
@@ -84,9 +89,10 @@ class TetrisGrid
     /// </summary>
     /// 
 
-    /* method to test if the array works
+    // method to test if the array works
     public void AddTestBlocks()
     {
+        /*
         // Add a red horizontal line at the bottom
         grid[0, 19] = Color.Red;
         grid[1, 19] = Color.Red;
@@ -104,7 +110,21 @@ class TetrisGrid
         grid[9, 18] = Color.Green;
         grid[8, 19] = Color.Purple;
         grid[9, 19] = Color.Orange;
+        */
+
+
+        IBlock testBlock = new IBlock();
+        testBlock.DrawOnGrid(this, 0, 0);
+
+        JBlock jblock = new JBlock();
+        jblock.DrawOnGrid(this, 5, 5);
+
+        LBlock lblock = new LBlock();
+        lblock.DrawOnGrid(this, 4, 8);
+
     }
-    */
+    
+
+    
 }
 

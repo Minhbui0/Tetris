@@ -44,7 +44,7 @@ class GameWorld
         gameState = GameState.Playing;
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
         grid = new TetrisGrid(new Vector2(200, 50));
-        //grid.AddTestBlocks(); array test
+        grid.AddTestBlocks(); 
     }
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
@@ -66,5 +66,8 @@ class GameWorld
     public void Reset()
     {
     }
+
+
+
 
 }
