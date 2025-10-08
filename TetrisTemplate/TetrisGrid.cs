@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Reflection.Metadata;
+using System.Security.Principal;
 
 /// <summary>
 /// A class for representing the Tetris playing grid.
@@ -11,7 +12,8 @@ class TetrisGrid
     Texture2D emptyCell;
 
     /// The position at which this TetrisGrid should be drawn.
-    Vector2 position;
+    public Vector2 position;
+    
 
     /// The number of grid elements in the x-direction.
     public int Width { get { return 10; } }
@@ -23,6 +25,7 @@ class TetrisGrid
     /// </summary>
     /// Declares the field
     Color[,] grid;
+   
 
     /// <summary>
     /// Creates a new TetrisGrid.
@@ -57,6 +60,7 @@ class TetrisGrid
                 }
             }
         }
+
     }
 
     //method to set a cell in the grid to a color
@@ -68,9 +72,9 @@ class TetrisGrid
         }
 
     }
-    /// <summary>
-    /// Clears the grid.
-    /// </summary>
+    
+    // Method to clear the grid.
+    
     public void Clear()
     {
         for(int i =0; i < Width; i++)
@@ -82,6 +86,18 @@ class TetrisGrid
         }
         
     }
+
+    
+    //Check if a specific cell in the grid is occupied.
+    
+    public bool IsCellOccupied(int x, int y)
+    {
+        if (x < 0 || x >= Width || y < 0 || y >= Height)
+            return true; // Out of bounds counts as occupied
+
+        return grid[x, y] != Color.White; // White = empty
+    }
+
 
 
     /// <summary>
@@ -110,18 +126,20 @@ class TetrisGrid
         grid[9, 18] = Color.Green;
         grid[8, 19] = Color.Purple;
         grid[9, 19] = Color.Orange;
-        */
+        
 
 
         IBlock testBlock = new IBlock();
         testBlock.DrawOnGrid(this, 0, 0);
 
+
+        /*
         JBlock jblock = new JBlock();
         jblock.DrawOnGrid(this, 5, 5);
 
         LBlock lblock = new LBlock();
         lblock.DrawOnGrid(this, 4, 8);
-
+        */
     }
     
 

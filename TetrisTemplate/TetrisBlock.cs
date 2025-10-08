@@ -8,7 +8,6 @@ class TetrisBlock
 {
     //declares block array with 4x4 dimensions
     protected bool[,] blockArray = new bool[4, 4];
-
     protected Color color = Color.Green;
 
 
@@ -29,6 +28,7 @@ class TetrisBlock
         }
 
         //reverse each row horizontally 
+        
         for (int i = 0; i < 4; i++)
         {
             for (int j = 0; j < 2; j++)
@@ -38,7 +38,7 @@ class TetrisBlock
                 transposedArray[i, 3 - j] = temp;
             }
         }
-
+        
         blockArray = transposedArray;
     }
 
@@ -58,9 +58,9 @@ class TetrisBlock
         }
 
         //reverse each column vertically
-        for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
         {
-            for (int j = 0; j < 2; j++)
+            for (int i = 0; i < 2; i++)
             {
                 bool temp = transposedArray[i, j];
                 transposedArray[i, j] = transposedArray[3 - i, j];
@@ -72,6 +72,7 @@ class TetrisBlock
     }
 
     //method to draw the blocks onto the grid
+    /*
     public void DrawOnGrid(TetrisGrid grid, int gridX, int gridY)
     {
         for (int y = 0; y < 4; y++)
@@ -85,6 +86,39 @@ class TetrisBlock
             }
         }
     }
+    */
+
+    // Draws the block at a specific position without modifying the grid.
+    
+    public void Draw(GameTime gameTime, SpriteBatch spriteBatch, TetrisGrid grid, Point position)
+    {
+        Texture2D blockSprite = TetrisGame.ContentManager.Load<Texture2D>("block");
+        Vector2 gridPosition = grid.position; 
+
+        for (int y = 0; y < 4; y++)
+        {
+            for (int x = 0; x < 4; x++)
+            {
+                if (blockArray[y, x])
+                {
+                    int drawX = (int)gridPosition.X + (position.X + x) * 40;
+                    int drawY = (int)gridPosition.Y + (position.Y + y) * 40;
+                    spriteBatch.Draw(blockSprite,
+                        new Rectangle(drawX, drawY, 40, 40), color);
+                }
+            }
+        }
+    }
+
+   
+    //Check if a specific cell in the block array is occupied.
+    
+    public bool IsCellOccupied(int x, int y)
+    {
+        return blockArray[y, x];
+    }
+
+
 }
 
 //classes of 7 different types of blocks
@@ -94,9 +128,9 @@ class OBlock : TetrisBlock
     {
         blockArray = new bool[4, 4]
         {
-            {true, true, false, false },
-            {true, true, false, false },
             {false, false, false, false },
+            {false, true, true, false },
+            {false, true, true, false },
             {false, false, false, false }
         };     
     }
@@ -109,10 +143,10 @@ class IBlock : TetrisBlock
     {
         blockArray = new bool[4, 4]
         {
-            {true, false, false, false },
-            {true, false, false, false },
-            {true, false, false, false },
-            {true, false, false, false }
+            {false, true, false, false },
+            {false, true, false, false },
+            {false, true, false, false },
+            {false, true, false, false }
         };
     }
 }
@@ -124,9 +158,9 @@ class LBlock : TetrisBlock
     {
         blockArray = new bool[4, 4]
         {
-            {true, false, false, false },
-            {true, false, false, false },
-            {true, true, false, false },
+            {false, true, false, false },
+            {false, true, false, false },
+            {false, true, true, false },
             {false, false, false, false }
         };
     }
@@ -139,9 +173,9 @@ class JBlock : TetrisBlock
     {
         blockArray = new bool[4, 4]
         {
-            {false, true, false, false },
-            {false, true, false, false },
-            {true, true, false, false },
+            {false, false, true, false },
+            {false, false, true, false },
+            {false, true, true, false },
             {false, false, false, false }
         };
     }
@@ -154,9 +188,9 @@ class SBlock : TetrisBlock
     {
         blockArray = new bool[4, 4]
         {
-            {false, true, true, false },
-            {true, true, false, false },
             {false, false, false, false },
+            {false, false, true, true },
+            {false, true, true, false },
             {false, false, false, false }
         };
     }
@@ -169,9 +203,9 @@ class ZBlock : TetrisBlock
     {
         blockArray = new bool[4, 4]
         {
-            {true, true, false, false },
-            {false, true, true, false },
             {false, false, false, false },
+            {false, true, true, false },
+            {false, false, true, true },
             {false, false, false, false }
         };
     }
@@ -184,9 +218,9 @@ class TBlock : TetrisBlock
     {
         blockArray = new bool[4, 4]
         {
+            {false, false, false, false },
             {true, true, true, false },
             {false, true, false, false },
-            {false, false, false, false },
             {false, false, false, false }
         };
     }
