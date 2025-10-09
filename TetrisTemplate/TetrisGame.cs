@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 
 class TetrisGame : Game
 {
+    GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch;
     InputHelper inputHelper;
     GameWorld gameWorld;
@@ -32,7 +33,7 @@ class TetrisGame : Game
     public TetrisGame()
     {        
         // initialize the graphics device
-        GraphicsDeviceManager graphics = new GraphicsDeviceManager(this);
+        graphics = new GraphicsDeviceManager(this);
 
         // store a static reference to the content manager, so other objects can use it
         ContentManager = Content;
@@ -42,8 +43,6 @@ class TetrisGame : Game
 
         // set the desired window size
         ScreenSize = new Point(800, 900);
-        graphics.PreferredBackBufferWidth = ScreenSize.X;
-        graphics.PreferredBackBufferHeight = ScreenSize.Y;
 
         // create the input helper object
         inputHelper = new InputHelper();
@@ -51,6 +50,13 @@ class TetrisGame : Game
         
     }
 
+    protected override void Initialize()
+    {
+        graphics.PreferredBackBufferWidth = ScreenSize.X;
+        graphics.PreferredBackBufferHeight = ScreenSize.Y;
+        graphics.ApplyChanges();
+        base.Initialize();
+    }
 
     protected override void LoadContent()
     {

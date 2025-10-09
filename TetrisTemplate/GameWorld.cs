@@ -23,8 +23,8 @@ class GameWorld
     /// <summary>
     /// The random-number generator of the game.
     /// </summary>
-    public static Random Random { get { return random; } }
-    static Random random;
+    //public static Random Random { get { return random; } }
+   // static Random random;
     
 
     /// <summary>
@@ -46,7 +46,10 @@ class GameWorld
 
     Point blockPosition;
 
-    
+    public TetrisBlock[] blocks;
+    public int blockNumber;
+    public static Random random = new Random();
+
 
 
     public GameWorld()
@@ -60,12 +63,38 @@ class GameWorld
         SpawnNewBlock();
     }
 
+    // Spawns in a new random block
     public void SpawnNewBlock()
     {
-        currentBlock = new TBlock();
+        blocks = new TetrisBlock[] { new OBlock(), new IBlock(), new LBlock(), new JBlock(), new SBlock(), new ZBlock(), new TBlock() };
+        blockNumber = random.Next(blocks.Length);
+        currentBlock = blocks[blockNumber];
         blockPosition = new Point(3, 0);
-
     }
+
+    // Places the current block in the grid
+    private void PlaceBlock()
+    {
+        for (int y = 0; y < 4; y++)
+        {
+            for (int x = 0; x < 4; x++)
+            {
+                if (currentBlock.IsCellOccupied(x, y))
+                {
+                    int gridX = blockPosition.X + x;
+                    int gridY = blockPosition.Y + y;
+
+                    if (gridX >= 0 && gridX < grid.Width &&
+                        gridY >= 0 && gridY < grid.Height)
+                    {
+                        grid.SetCell(gridX, gridY, Color.Green);
+                    }
+                }
+            }
+        }
+        SpawnNewBlock(); // After placing, runs SpawNewBlock method to spawn in a new block
+    }
+
 
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
@@ -101,8 +130,6 @@ class GameWorld
             blockPosition.X--;
             if (!IsValidPosition())
                 blockPosition.X++; // move right if invalid
-
-
         }
 
         // Press down arrow to move down
@@ -111,12 +138,26 @@ class GameWorld
             blockPosition.Y++;
 
             if (!IsValidPosition())
+            {
                 blockPosition.Y--; // move up if invalid
+                PlaceBlock();
+            }
         }
 
-
-
-
+        // Press spacebar to immediately move down.
+        if (inputHelper.KeyPressed(Keys.Space))
+        {
+            for (int i = 0; i < grid.Height; i++)
+            {
+                if (!IsValidPosition())
+                {
+                    blockPosition.Y--;
+                    PlaceBlock();
+                    break;
+            }
+                blockPosition.Y++;
+            }
+        }
     }
 
 
@@ -153,9 +194,6 @@ class GameWorld
         return true;
     }
 
-   
-
-
     public void Update(GameTime gameTime)
     {
     }
@@ -185,5 +223,3 @@ class GameWorld
 
 
 }
-
-//test
