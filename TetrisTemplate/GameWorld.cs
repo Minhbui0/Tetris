@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics.Metrics;
 using System.Runtime.CompilerServices;
 
 
@@ -41,14 +42,18 @@ class GameWorld
     /// The main grid of the game.
     /// </summary>
     TetrisGrid grid;
-
+    TetrisGrid previewGrid;
     TetrisBlock currentBlock;
+    TetrisBlock nextBlock;
 
     Point blockPosition;
 
     public TetrisBlock[] blocks;
-    public int blockNumber;
     public static Random random = new Random();
+    public int blockNumber;   
+    private int Score;
+    private int Counter;
+    private Vector2 previewGridPosition = new Vector2(620, 100);
 
 
 
@@ -58,18 +63,34 @@ class GameWorld
         gameState = GameState.Playing;
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
         grid = new TetrisGrid(new Vector2(200, 50));
+        //previewGrid = new TetrisGrid(new Vector2(620, 100));
+        previewGrid = new TetrisGrid(previewGridPosition);
         //grid.AddTestBlocks();
 
+        blocks = new TetrisBlock[] { new OBlock(), new IBlock(), new LBlock(), new JBlock(), new SBlock(), new ZBlock(), new TBlock() };
+        nextBlock = blocks[blockNumber];
         SpawnNewBlock();
     }
 
-    // Spawns in a new random block
+    // Generates a new random block
+    private TetrisBlock GetRandomBlock()
+    {
+        blockNumber = random.Next(blocks.Length);
+        return blocks[blockNumber];
+    }
+
+    // Spawns in the new random block
     public void SpawnNewBlock()
     {
-        blocks = new TetrisBlock[] { new OBlock(), new IBlock(), new LBlock(), new JBlock(), new SBlock(), new ZBlock(), new TBlock() };
-        blockNumber = random.Next(blocks.Length);
-        currentBlock = blocks[blockNumber];
+        currentBlock = nextBlock;
         blockPosition = new Point(3, 0);
+        nextBlock = GetRandomBlock();
+    }
+
+    // Helper function that returns the random next block for the drawing function
+    public TetrisBlock GetNextBlock()
+    {
+        return nextBlock;
     }
 
     // Places the current block in the grid
@@ -92,8 +113,65 @@ class GameWorld
                 }
             }
         }
+        RemoveFullRows(); // After placing, checks if there are any rows completely filled
         SpawnNewBlock(); // After placing, runs SpawNewBlock method to spawn in a new block
     }
+    
+    // Method that clears any completely filled rows
+    private void RemoveFullRows()
+    {
+        Counter = 0;
+
+        for (int y = grid.Height - 1; y >= 0; y--)
+        {
+            bool rowIsFull = true;
+
+            for (int x = 0; x < grid.Width; x++)
+            {
+                if (!grid.IsCellOccupied(x, y))
+                {
+                    rowIsFull = false;
+                    break;
+                }
+            }
+
+            if (rowIsFull)
+            {
+                Counter++;
+
+                // Clears rows
+                for (int x = 0; x < grid.Width; x++)
+                {
+                    grid.SetCell(x, y, Color.White);
+                }
+
+                // Shift rows down
+                for (int row = y; row > 0; row--)
+                {
+                    for (int x = 0; x < grid.Width; x++)
+                    {
+                        Color above = grid.GetCell(x, row - 1);
+                        grid.SetCell(x, row, above);
+                    }
+                }
+
+                // Sets top row to empty (since there is no row above to copy from)
+                for (int x = 0; x < grid.Width; x++)
+                {
+                    grid.SetCell(x, 0, Color.White);
+                }
+
+                y++; // Check the row again if it is completely filled again after first clear
+            }
+        }
+
+        // Adds score if there cleared rows. The more rows cleared consecutively, the higher the awarded score will be.
+        if (Counter > 0)
+        {
+            Score += 1000 * ((int)Math.Pow(2, Counter) - 1);
+        }
+    }
+
 
 
 
@@ -164,7 +242,7 @@ class GameWorld
 
 
     
-    //Check if the current block position is valid, meaning its within the bounds of the grid and there is no overlap.
+    // Check if the current block position is valid, meaning its within the bounds of the grid and there is no overlap.
     private bool IsValidPosition()
     {
         for (int y = 0; y < 4; y++)
@@ -205,21 +283,22 @@ class GameWorld
         if(currentBlock != null)
         {
             currentBlock.Draw(gameTime, spriteBatch, grid, blockPosition);
-
         }
-        
+
+        spriteBatch.DrawString(font, "Next", new Vector2(600, 60), Color.White);
+
+        if (nextBlock != null)
+        {
+            nextBlock.Draw(gameTime, spriteBatch, previewGrid, new Point(0, 0));
+        }
+
+        Vector2 scorePosition = new Vector2(previewGridPosition.X + 20, previewGridPosition.Y - 30);   
+        spriteBatch.DrawString(font, $"Score: {Score}", scorePosition, Color.Black);   // Shows the score counter on the screen.
 
         spriteBatch.End();
-
-        
-        
     }
 
     public void Reset()
     {
     }
-
-
-
-
 }

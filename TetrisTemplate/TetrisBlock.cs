@@ -107,12 +107,12 @@ class TetrisBlock
                         new Rectangle(drawX, drawY, 40, 40), color);
                 }
             }
-        }
+        }       
     }
 
-   
+
     //Check if a specific cell in the block array is occupied.
-    
+
     public bool IsCellOccupied(int x, int y)
     {
         return blockArray[y, x];

@@ -72,9 +72,16 @@ class TetrisGrid
         }
 
     }
-    
+
+    // Method that can read all colors on the grid
+    public Color GetCell(int x, int y)
+    {
+        return grid[x, y];
+    }
+
+
     // Method to clear the grid.
-    
+
     public void Clear()
     {
         for(int i =0; i < Width; i++)
