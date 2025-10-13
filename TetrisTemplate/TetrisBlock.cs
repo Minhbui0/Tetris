@@ -4,11 +4,11 @@ using System;
 
 
 
-class TetrisBlock
+public class TetrisBlock
 {
     //declares block array with 4x4 dimensions
     protected bool[,] blockArray = new bool[4, 4];
-    protected Color color = Color.Green;
+    public Color color = new Color();
 
 
     
@@ -111,6 +111,8 @@ class TetrisBlock
     }
 
 
+
+
     //Check if a specific cell in the block array is occupied.
 
     public bool IsCellOccupied(int x, int y)
@@ -132,7 +134,8 @@ class OBlock : TetrisBlock
             {false, true, true, false },
             {false, true, true, false },
             {false, false, false, false }
-        };     
+        };
+        color = Color.Yellow;
     }
 }
 
@@ -148,6 +151,7 @@ class IBlock : TetrisBlock
             {false, true, false, false },
             {false, true, false, false }
         };
+        color = Color.Cyan;
     }
 }
 
@@ -163,6 +167,7 @@ class LBlock : TetrisBlock
             {false, true, true, false },
             {false, false, false, false }
         };
+        color = Color.Orange;
     }
 }
 
@@ -178,6 +183,7 @@ class JBlock : TetrisBlock
             {false, true, true, false },
             {false, false, false, false }
         };
+        color = Color.Blue;
     }
 }
 
@@ -193,6 +199,7 @@ class SBlock : TetrisBlock
             {false, true, true, false },
             {false, false, false, false }
         };
+        color = Color.Green;
     }
 }
 
@@ -208,6 +215,7 @@ class ZBlock : TetrisBlock
             {false, false, true, true },
             {false, false, false, false }
         };
+        color = Color.Red;
     }
 }
 
@@ -223,6 +231,7 @@ class TBlock : TetrisBlock
             {false, true, false, false },
             {false, false, false, false }
         };
+        color = Color.Purple;
     }
 }
 

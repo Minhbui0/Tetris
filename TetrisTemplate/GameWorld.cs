@@ -66,6 +66,7 @@ class GameWorld
         //previewGrid = new TetrisGrid(new Vector2(620, 100));
         previewGrid = new TetrisGrid(previewGridPosition);
         //grid.AddTestBlocks();
+        
 
         blocks = new TetrisBlock[] { new OBlock(), new IBlock(), new LBlock(), new JBlock(), new SBlock(), new ZBlock(), new TBlock() };
         nextBlock = blocks[blockNumber];
@@ -94,7 +95,7 @@ class GameWorld
     }
 
     // Places the current block in the grid
-    private void PlaceBlock()
+    public void PlaceBlock()
     {
         for (int y = 0; y < 4; y++)
         {
@@ -108,7 +109,7 @@ class GameWorld
                     if (gridX >= 0 && gridX < grid.Width &&
                         gridY >= 0 && gridY < grid.Height)
                     {
-                        grid.SetCell(gridX, gridY, Color.Green);
+                        grid.SetCell(gridX, gridY, currentBlock.color);
                     }
                 }
             }

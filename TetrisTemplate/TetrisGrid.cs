@@ -6,7 +6,7 @@ using System.Security.Principal;
 /// <summary>
 /// A class for representing the Tetris playing grid.
 /// </summary>
-class TetrisGrid
+public class TetrisGrid
 {
     /// The sprite of a single empty cell in the grid.
     Texture2D emptyCell;
