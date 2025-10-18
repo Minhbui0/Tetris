@@ -22,13 +22,6 @@ class GameWorld
     }
 
     /// <summary>
-    /// The random-number generator of the game.
-    /// </summary>
-    //public static Random Random { get { return random; } }
-   // static Random random;
-    
-
-    /// <summary>
     /// The main font of the game.
     /// </summary>
     SpriteFont font;
@@ -54,6 +47,9 @@ class GameWorld
     private int Score;
     private int Counter;
     private Vector2 previewGridPosition = new Vector2(620, 100);
+
+    private float fallTimer = 0f;
+    private float fallInterval = 1.0f; // Block falls every second
 
 
 
@@ -275,6 +271,37 @@ class GameWorld
 
     public void Update(GameTime gameTime)
     {
+        if (gameState != GameState.Playing)
+            return;
+
+        // Accumulate time since last frame
+        fallTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        // Check if enough time has passed for the block to fall
+        if (fallTimer >= fallInterval)
+        {
+            fallTimer = 0f; // Reset the timer
+
+            
+            blockPosition.Y++;
+
+            
+            if (!IsValidPosition())
+            {
+                
+                blockPosition.Y--;
+
+                
+                PlaceBlock();
+
+                // Check if new block spawns in a valid position
+                if (!IsValidPosition())
+                {
+                    gameState = GameState.GameOver;
+                }
+            }
+        }
+
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
