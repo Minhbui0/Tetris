@@ -71,24 +71,6 @@ public class TetrisBlock
         blockArray = transposedArray;
     }
 
-    //method to draw the blocks onto the grid
-    /*
-    public void DrawOnGrid(TetrisGrid grid, int gridX, int gridY)
-    {
-        for (int y = 0; y < 4; y++)
-        {
-            for (int x = 0; x < 4; x++)
-            {
-                if (blockArray[y, x])  
-                {
-                    grid.SetCell(gridX + x, gridY + y, color);
-                }
-            }
-        }
-    }
-    */
-
-    // Draws the block at a specific position without modifying the grid.
     
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch, TetrisGrid grid, Point position)
     {

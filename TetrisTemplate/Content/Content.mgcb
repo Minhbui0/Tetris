@@ -13,12 +13,47 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin SpelFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:SpelFont.spritefont
+#begin Audio/blockplace_soundeffect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/blockplace_soundeffect.wav
+
+#begin Audio/gameover_soundeffect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/gameover_soundeffect.wav
+
+#begin Audio/levelup_soundeffect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/levelup_soundeffect.wav
+
+#begin Audio/lineclear_soundeffect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/lineclear_soundeffect.wav
+
+#begin Audio/move_soundeffect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/move_soundeffect.wav
+
+#begin Audio/rotate_sound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/rotate_sound.wav
+
+#begin Audio/tetris_music.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/tetris_music.wav
 
 #begin block.png
 /importer:TextureImporter
@@ -31,4 +66,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:block.png
+
+#begin SpelFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:SpelFont.spritefont
 
